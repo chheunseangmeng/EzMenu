@@ -1,0 +1,4 @@
+python-telegram-bot==20.3
+mysql-connector-python==8.0.33
+python-dotenv==1.0.0
+fpdf==1.7.2
