@@ -5,7 +5,6 @@ from handlers.cart_handler import add_item, continue_choosing, remove_item, view
 from handlers.checkout_handler import checkout_handler  
 from config import TOKEN
 
-# Handle all callback queries (button presses)
 async def handle_callbacks(update, context):
     data = update.callback_query.data
     await update.callback_query.answer() 

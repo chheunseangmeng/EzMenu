@@ -23,12 +23,10 @@ async def checkout_handler(update, context):
     cursor = conn.cursor()
 
     try:
-        # STEP 1: Get or create user to get user_id
         cursor.execute("SELECT id FROM users WHERE telegram_id = %s", (telegram_id,))
         user_result = cursor.fetchone()
 
         if not user_result:
-            # Insert new user
             cursor.execute(
                 "INSERT INTO users (telegram_id, first_name, last_name) VALUES (%s, %s, %s)",
                 (telegram_id, user.first_name or '', user.last_name or '')
@@ -39,7 +37,7 @@ async def checkout_handler(update, context):
             user_id = user_result[0]
             print(f"Found existing user with ID: {user_id}")
 
-        # STEP 2: Insert into carts table
+        
         for item in cart_items:
             item_total = item["price"] * item["quantity"]
             cursor.execute(
@@ -61,7 +59,6 @@ async def checkout_handler(update, context):
         cursor.close()
         conn.close()
 
-    # STEP 3: Generate PDF receipt
     try:
         pdf_path = generate_pdf_receipt(
             cart_items,
@@ -81,10 +78,8 @@ async def checkout_handler(update, context):
         print(f"Error generating receipt: {e}")
         await query.message.reply_text("✅ Order placed! (But receipt generation failed)")
 
-    # STEP 4: Clear temporary cart
     clear_temp_cart(telegram_id)
 
-    # STEP 5: Send New Ordering button
     keyboard = InlineKeyboardMarkup([
         [InlineKeyboardButton("🔄 New Ordering", callback_data="continue")]
     ])

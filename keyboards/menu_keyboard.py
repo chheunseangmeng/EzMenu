@@ -1,4 +1,3 @@
-# keyboards/menu_keyboard.py
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 def categories_keyboard():

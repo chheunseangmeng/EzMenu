@@ -47,17 +47,16 @@ async def view_cart_handler(update, context):
             )
         )
 
-    # Create keyboard with remove buttons and action buttons
+
     keyboard = []
     
-    # Add remove buttons in rows of 2
+    
     for i in range(0, len(remove_buttons), 2):
         if i+1 < len(remove_buttons):
             keyboard.append([remove_buttons[i], remove_buttons[i+1]])
         else:
             keyboard.append([remove_buttons[i]])
     
-    # Add checkout and continue buttons
     keyboard.append([
         InlineKeyboardButton("💳 Checkout", callback_data="checkout"),
         InlineKeyboardButton("🔄 Continue Choosing", callback_data="continue")
@@ -69,13 +68,13 @@ async def view_cart_handler(update, context):
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
-# Remove item
+
 async def remove_item(update, context, item_id):
     telegram_id = update.callback_query.from_user.id
     remove_from_temp_cart(telegram_id, item_id)
     await view_cart_handler(update, context)
 
-# Continue choosing
+
 async def continue_choosing(update, context):
     await update.callback_query.message.reply_text(
         "📂 Choose a category:",
